@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+<!--    <properties resource="config.properties"/>-->
+    <context id="Mysql" targetRuntime="MyBatis3Simple" defaultModelType="flat">
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+
+        <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
+            <property name="mappers" value="tk.mybatis.mapper.common.Mapper"/>
+            <property name="caseSensitive" value="true"/>
+        </plugin>
+
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/dev?useUnicode=true;useSSL=false;characterEncoding=utf8"
+                        userId="root"
+                        password="root">
+            <!--识别主键-->
+            <property name="useInformationSchema" value="true"/>
+        </jdbcConnection>
+
+        <javaModelGenerator targetPackage="com.bingye.domain.model"
+                            targetProject="src/main/java"/>
+
+        <sqlMapGenerator targetPackage="mapper"
+                         targetProject="src/main/resources"/>
+
+        <javaClientGenerator targetPackage="com.bingye.mapper"
+                             targetProject="src/main/java"
+                             type="XMLMAPPER"/>
+
+<!--
+identity:取回主键的方式（前提数据库支持自增主键）
+DB2: VALUES IDENTITY_VAL_LOCAL()
+MYSQL: SELECT LAST_INSERT_ID()
+SQLSERVER: SELECT SCOPE_IDENTITY()
+CLOUDSCAPE: VALUES IDENTITY_VAL_LOCAL()
+DERBY: VALUES IDENTITY_VAL_LOCAL()
+HSQLDB: CALL IDENTITY()
+SYBASE: SELECT @@IDENTITY
+DB2_MF: SELECT IDENTITY_VAL_LOCAL() FROM SYSIBM.SYSDUMMY1
+INFORMIX: select dbinfo('sqlca.sqlerrd1') from systables where tabid=1
+-->
+
+        <table tableName="t_user" enableInsert="true">
+            <!--这个元素用来指定自动生成主键的属性 最多只有一个（identity字段或者sequences序列）-->
+            <generatedKey column="id" sqlStatement="MYSQL"/>
+        </table>
+    </context>
+</generatorConfiguration>
